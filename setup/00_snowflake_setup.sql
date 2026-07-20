@@ -17,7 +17,7 @@ use role SYSADMIN;
 create or replace warehouse INSTACART_WH 
   with warehouse_size = 'XSMALL' 
   auto_suspend = 60 
-  auto_resume = true;
+  auto_resume = TRUE;
 
 create or replace database INSTACART_DW;
 
