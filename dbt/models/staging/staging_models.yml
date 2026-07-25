@@ -21,7 +21,7 @@ models:
         tests:
           - accepted_values:
               arguments:
-                values: ['prior', 'train', 'test']
+                values: ['PRIOR', 'TRAIN', 'TEST']
       - name: order_number
         tests: [not_null]
       - name: order_dow
@@ -29,7 +29,7 @@ models:
           - accepted_values:
               arguments:
                 values: [0, 1, 2, 3, 4, 5, 6]
-      - name: order_dow
+      - name: order_hour_of_day
         tests:
           - accepted_values:
               arguments:
@@ -52,27 +52,11 @@ models:
                 to: ref('stg_departments')
                 field: department_id
 
-  - name: stg_order_products__prior
-    columns:
-      - name: order_id
-        tests:
-          - relationships:
-              arguments:
-                to: ref('stg_orders')
-                field: order_id
-      - name: product_id
-        tests:
-          - relationships:
-              arguments:
-                to: ref('stg_products')
-                field: product_id
-      - name: reordered
-        tests:
-          - accepted_values:
-              arguments:
-                values: [0, 1]
-
-  - name: stg_order_products__train
+  - name: stg_order_products
+    data_tests:
+      - unique:
+          arguments:
+            column_name: "(order_id || '-' || product_id)"
     columns:
       - name: order_id
         tests:
