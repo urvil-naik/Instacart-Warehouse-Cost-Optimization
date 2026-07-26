@@ -11,7 +11,7 @@ ALTER SESSION SET QUERY_TAG = 'unoptimized_q3_shopping_patterns';
 -- Grain: one row per day_of_week + hour combination
 
 SELECT
-    CASE ORDER_DOW
+    CASE ORDER_DOW::INT
         WHEN 0 THEN 'Sunday'
         WHEN 1 THEN 'Monday'
         WHEN 2 THEN 'Tuesday'
