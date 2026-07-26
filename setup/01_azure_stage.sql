@@ -1,19 +1,20 @@
-use role SYSADMIN;
-use database INSTACART_DW;
-use schema RAW;
+USE ROLE SYSADMIN;
+USE WAREHOUSE INSTACART_WH;
+USE DATABASE INSTACART_DW;
+USE SCHEMA RAW;
 
 -- File Format
-create or replace file format INSTACART_DW.RAW.FF_INSTACART_CSV
-  type = CSV
-  skip_header = 1 
-  field_delimiter = ','
-  record_delimiter = '\n'
-  field_optionally_enclosed_by = '"'
-  empty_field_as_null = TRUE
-  error_on_column_count_mismatch = TRUE;
+CREATE OR REPLACE FILE FORMAT INSTACART_DW.RAW.FF_INSTACART_CSV
+  TYPE = CSV
+  SKIP_HEADER = 1 
+  FIELD_DELIMITER = ','
+  RECORD_DELIMITER = '\n'
+  FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+  EMPTY_FIELD_AS_NULL = TRUE
+  ERROR_ON_COLUMN_COUNT_MISMATCH = TRUE;
 
 -- Map Stage to Storage Integration
-create or replace stage INSTACART_DW.RAW.STG_ADLS_INSTACART
-  storage_integration = AZURE_INSTACART_INT
-  url = 'azure://instacartdatalake.blob.core.windows.net/instacart-raw/'
-  file_format = INSTACART_DW.RAW.FF_INSTACART_CSV;
+CREATE OR REPLACE STAGE INSTACART_DW.RAW.STG_ADLS_INSTACART
+  STORAGE_INTEGRATION = AZURE_INSTACART_INT
+  URL = 'azure://instacartdatalake.blob.core.windows.net/instacart-raw/'
+  FILE_FORMAT = INSTACART_DW.RAW.FF_INSTACART_CSV;

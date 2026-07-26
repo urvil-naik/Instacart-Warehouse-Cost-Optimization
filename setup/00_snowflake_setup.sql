@@ -1,24 +1,29 @@
-use role ACCOUNTADMIN;
+USE ROLE ACCOUNTADMIN;
 
 -- Create Storage Integration
-create or replace storage integration AZURE_INSTACART_INT
-  type = EXTERNAL_STAGE
-  storage_provider = AZURE
-  enabled = TRUE
-  azure_tenant_id = '30ea0905-4fff-4b41-8047-7fbc4ff1d717'
-  storage_allowed_locations = ('azure://instacartdatalake.blob.core.windows.net/instacart-raw/');
+CREATE OR REPLACE STORAGE INTEGRATION AZURE_INSTACART_INT
+  TYPE = EXTERNAL_STAGE
+  STORAGE_PROVIDER = AZURE
+  ENABLED = TRUE
+  AZURE_TENANT_ID = '30ea0905-4fff-4b41-8047-7fbc4ff1d717'
+  STORAGE_ALLOWED_LOCATIONS = ('azure://instacartdatalake.blob.core.windows.net/instacart-raw/');
 
 -- Access Control
-grant usage on integration AZURE_INSTACART_INT to role SYSADMIN;
+GRANT USAGE ON INTEGRATION AZURE_INSTACART_INT TO ROLE SYSADMIN;
 
 -- Create Warehouse, Database, and Schemas
-use role SYSADMIN;
+USE ROLE SYSADMIN;
 
-create or replace warehouse INSTACART_WH 
-  with warehouse_size = 'XSMALL' 
-  auto_suspend = 60 
-  auto_resume = TRUE;
+CREATE OR REPLACE WAREHOUSE INSTACART_WH 
+  WITH WAREHOUSE_SIZE = 'XSMALL' 
+  AUTO_SUSPEND = 60 
+  AUTO_RESUME = TRUE;
 
-create or replace database INSTACART_DW;
+CREATE OR REPLACE DATABASE INSTACART_DW;
 
-create or replace schema INSTACART_DW.RAW;
+CREATE OR REPLACE SCHEMA INSTACART_DW.RAW;
+
+CREATE OR REPLACE SCHEMA INSTACART_DW.UNOPTIMIZED;
+
+-- dbt settings (-- this is a staging schema for development purpose for dbt assuming the role SYSADMIN and schema DBT_<<username>>_STAGING)
+GRANT ALL PRIVILEGES ON SCHEMA INSTACART_DW.DBT_URVILNAIK_STAGING TO ROLE SYSADMIN;
