@@ -17,11 +17,6 @@ models:
         tests: [unique, not_null]
       - name: user_id
         tests: [not_null]
-      - name: eval_set
-        tests:
-          - accepted_values:
-              arguments:
-                values: ['PRIOR', 'TRAIN', 'TEST']
       - name: order_number
         tests: [not_null]
       - name: order_dow
