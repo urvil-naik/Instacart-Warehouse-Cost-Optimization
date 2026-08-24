@@ -2,15 +2,89 @@ version: 2
 
 models:
   - name: dim_products
-    description: Product dimension containing one row per product
+    description: Product dimension containing one row per product.
 
     columns:
-      - name: product_key
-        description: Surrogate key
+      - name: product_sk
+        description: Primary surrogate key
         tests: [unique, not_null]
       - name: product_id
-        description: Business key
+        description: Natural key
         tests: [unique, not_null]
       - name: product_name
-        description: Product name
+        tests: [not_null]
+      - name: aisle_name
+        tests: [not_null]
+      - name: department_name
+        tests: [not_null]
+
+  - name: dim_users
+    description: User dimension containing one row per user.
+
+    columns:
+      - name: user_sk
+        description: Primary surrogate key
+        tests: [unique, not_null]
+      - name: user_id
+        description: Natural key
+        tests: [unique, not_null]
+      - name: total_orders
+        tests: [not_null]
+      - name: frequency_segment
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['casual', 'occasional', 'regular', 'loyal', 'power user']
+
+  - name: fct_order_items
+    description: Line-item fact table containing one row per product per order.
+
+    data_tests:
+      - unique:
+          arguments:
+            column_name: "(order_id || '-' || product_id)"
+    columns:
+      - name: order_item_sk
+        description: Primary surrogate key
+        tests: [unique, not_null]
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_orders')
+                field: order_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_id
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_users')
+                field: user_id
+
+  - name: fct_orders
+    description: Order header fact table containing one row per order.
+
+    columns:
+      - name: order_sk
+        description: Primary surrogate key
+        tests: [unique, not_null]
+      - name: order_id
+        description: Natural key
+        tests: [unique, not_null]
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_users')
+                field: user_id
+      - name: total_items
         tests: [not_null]

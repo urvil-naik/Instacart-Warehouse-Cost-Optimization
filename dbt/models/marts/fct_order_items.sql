@@ -4,7 +4,7 @@
 ) }}
 
 select
-    {{ dbt_utils.generate_surrogate_key(['op.order_id','op.product_id']) }} as order_product_sk,
+    {{ dbt_utils.generate_surrogate_key(['op.order_id','op.product_id']) }} as order_item_sk,
     op.order_id,
     op.product_id,
     o.user_id,
