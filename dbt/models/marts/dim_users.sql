@@ -33,7 +33,7 @@ select
     uo.user_id,
     uo.total_orders,
     uo.avg_days_between_orders,
-    to_decimal(ui.total_items_bought / nullif(uo.total_orders, 0), 6, 1) as avg_basket_size,
+    to_decimal(cast(ui.total_items_bought as float) / nullif(uo.total_orders, 0), 6, 1) as avg_basket_size,
     ui.total_reorders,
     ui.reorder_rate_pct,
     ui.unique_products_bought,
