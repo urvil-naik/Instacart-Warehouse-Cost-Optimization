@@ -1,0 +1,36 @@
+USE ROLE SYSADMIN;
+USE WAREHOUSE INSTACART_WH;
+USE DATABASE INSTACART_DW;
+USE SCHEMA CORE;
+
+ALTER SESSION SET USE_CACHED_RESULT = FALSE;
+ALTER SESSION SET QUERY_TAG = 'optimized_q3_shopping_patterns';
+
+-- When do people shop and how does basket behavior change by time?
+
+-- Grain: one row per day_of_week + hour combination
+
+SELECT
+    CASE ORDER_DOW
+        WHEN 0 THEN 'Sunday'
+        WHEN 1 THEN 'Monday'
+        WHEN 2 THEN 'Tuesday'
+        WHEN 3 THEN 'Wednesday'
+        WHEN 4 THEN 'Thursday'
+        WHEN 5 THEN 'Friday'
+        WHEN 6 THEN 'Saturday'
+    END AS DAY_OF_WEEK,
+    ORDER_DOW,
+    ORDER_HOUR_OF_DAY,
+    COUNT(*) AS TOTAL_ORDERS,
+    SUM(TOTAL_ITEMS) AS TOTAL_LINE_ITEMS,
+    ROUND(SUM(TOTAL_ITEMS)::FLOAT / NULLIF(COUNT(*), 0), 1) AS AVG_BASKET_SIZE,
+    RANK() OVER (
+        PARTITION BY ORDER_DOW ORDER BY COUNT(*) DESC
+    ) AS PEAK_RANK_WITHIN_DAY
+FROM INSTACART_DW.CORE.FCT_ORDERS
+--
+GROUP BY ORDER_DOW, ORDER_HOUR_OF_DAY
+ORDER BY ORDER_DOW, ORDER_HOUR_OF_DAY;
+
+ALTER SESSION UNSET QUERY_TAG;
