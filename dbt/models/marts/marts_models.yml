@@ -18,8 +18,8 @@ models:
       - name: department_name
         tests: [not_null]
 
-  - name: dim_users
-    description: User dimension containing one row per user.
+  - name: agg_user_metrics
+    description: Pre-computed user attributes containing one row per user.
 
     columns:
       - name: user_sk
