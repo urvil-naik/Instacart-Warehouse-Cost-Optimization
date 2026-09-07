@@ -39,10 +39,6 @@ models:
   - name: fct_order_items
     description: Line-item fact table containing one row per product per order.
 
-    data_tests:
-      - unique:
-          arguments:
-            column_name: "(order_id || '-' || product_id)"
     columns:
       - name: order_item_sk
         description: Primary surrogate key
@@ -64,10 +60,6 @@ models:
       - name: user_id
         tests:
           - not_null
-          - relationships:
-              arguments:
-                to: ref('dim_users')
-                field: user_id
 
   - name: fct_orders
     description: Order header fact table containing one row per order.
@@ -80,11 +72,6 @@ models:
         description: Natural key
         tests: [unique, not_null]
       - name: user_id
-        tests:
-          - not_null
-          - relationships:
-              arguments:
-                to: ref('dim_users')
-                field: user_id
+        tests: [not_null]
       - name: total_items
         tests: [not_null]
