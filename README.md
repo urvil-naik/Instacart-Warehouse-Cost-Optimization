@@ -5,7 +5,7 @@
 ![Azure](https://img.shields.io/badge/Azure%20ADLS-0078D4?logo=microsoftazure&logoColor=white)
 ![SQL](https://img.shields.io/badge/SQL-4479A1?logo=postgresql&logoColor=white)
 
-An ELT data warehouse on Snowflake and dbt Core comparing a **~33.8M-row denormalized baseline** against a Kimball Star Schema, reducing total query execution time by 33.2% and overall bytes scanned by 36.6% across core star schema workloads.
+An ELT data warehouse on Snowflake and dbt Core comparing a **~33.8M row denormalized baseline** against a Kimball Star Schema, reducing total query execution time by 33.2% and overall bytes scanned by 36.6% across core star schema workloads.
 
 ---
 
@@ -27,9 +27,9 @@ An ELT data warehouse on Snowflake and dbt Core comparing a **~33.8M-row denorma
 
 | Workload | Runtime Before | Runtime After | Δ Runtime | Bytes Scanned Before | Bytes Scanned After | Δ Bytes |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Q1 — Reorder Rate** | 3.44s | 3.10s | −9.9% | 174 MB | 136 MB | −21.8% |
-| **Q2 — User Behavior** | 4.27s | 0.15s | **−96.5%** | 273 MB | 2 MB | **−99.3%** |
-| **Q3 — Hourly Patterns** | 1.50s | 0.20s | **−86.7%** | 53 MB | 8 MB | **−84.9%** |
+| **Q1: Reorder Rate** | 3.44s | 3.10s | −9.9% | 174 MB | 136 MB | −21.8% |
+| **Q2: User Behavior** | 4.27s | 0.15s | **−96.5%** | 273 MB | 2 MB | **−99.3%** |
+| **Q3: Hourly Patterns** | 1.50s | 0.20s | **−86.7%** | 53 MB | 8 MB | **−84.9%** |
 
 ---
 
